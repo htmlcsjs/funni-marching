@@ -50,7 +50,7 @@ int main(void)
     // Window initlisation
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(768, 576, "funni march");
-    SetTargetFPS(150);
+    SetTargetFPS(fps);
     generateGrid();
     unsigned long frameCount;
 
@@ -62,10 +62,10 @@ int main(void)
 
         // Selection rect pos update
         const int selRectSpeed = fps / 10;
-        bool keyDownRight = IsKeyDown(KEY_RIGHT);
-        bool keyDownLeft = IsKeyDown(KEY_LEFT);
-        bool keyDownUp = IsKeyDown(KEY_UP);
-        bool keyDownDown = IsKeyDown(KEY_DOWN);
+        bool keyDownRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
+        bool keyDownLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
+        bool keyDownUp = IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);
+        bool keyDownDown = IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S);
 
         Vector2 selRectPos = selectionRectangle.getGridPos();
     
