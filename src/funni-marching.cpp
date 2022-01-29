@@ -4,42 +4,46 @@
 
 #include "2D/Line.hpp"
 
+// Const and Var declaration
+const int screenWidth = 1280;
+const int screenHeight = 720;
+const int gridSize = 100;
+const Color gridColour = DARKBLUE;
+
+std::vector<helpers2D::Line> gridlines;
+
+void generateGrid()
+{
+    for (int x = screenWidth/2 + gridSize; x < screenWidth; x += gridSize)
+    {
+        gridlines.push_back(helpers2D::Line(x, 0, x, screenHeight, gridColour));
+    }
+
+    for (int x = screenWidth/2 - gridSize; x > 0; x -= gridSize)
+    {
+        gridlines.push_back(helpers2D::Line(x, 0, x, screenHeight, gridColour));
+    }
+
+    for (int y = screenHeight/2 + gridSize; y < screenHeight; y += gridSize)
+    {
+        gridlines.push_back(helpers2D::Line(0, y, screenWidth, y, gridColour));
+    }
+
+    for (int y = screenHeight/2 - gridSize; y > 0; y -= gridSize)
+    {
+        gridlines.push_back(helpers2D::Line(0, y, screenWidth, y, gridColour));
+    }
+
+    gridlines.push_back(helpers2D::Line(0, screenHeight/2, screenWidth, screenHeight/2, WHITE));
+    gridlines.push_back(helpers2D::Line(screenWidth/2, 0, screenWidth/2, screenHeight, WHITE));
+}
+
 int main(void)
 {
-    // Const and Var declaration
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
-    const int gridSize = 100;
-
-    std::vector<helpers2D::Line> gridlines;    
-
     // Window initlisation
     InitWindow(screenWidth, screenHeight, "funni march");
     SetTargetFPS(150);
-
-    for (int x = screenWidth/2; x < screenWidth; x += gridSize)
-    {
-        helpers2D::Line newLine = helpers2D::Line(x, 0, x, screenHeight, GREEN);
-        gridlines.push_back(newLine);
-    }
-
-    for (int x = screenWidth/2; x > 0; x -= gridSize)
-    {
-        helpers2D::Line newLine = helpers2D::Line(x, 0, x, screenHeight, GREEN);
-        gridlines.push_back(newLine);
-    }
-
-    for (int y = screenHeight/2; y < screenHeight; y += gridSize)
-    {
-        helpers2D::Line newLine = helpers2D::Line(0, y, screenWidth, y, GREEN);
-        gridlines.push_back(newLine);
-    }
-
-    for (int y = screenHeight/2; y > 0; y -= gridSize)
-    {
-        helpers2D::Line newLine = helpers2D::Line(0, y, screenWidth, y, GREEN);
-        gridlines.push_back(newLine);
-    }
+    generateGrid();
     
     while (!WindowShouldClose())
     {
@@ -49,7 +53,7 @@ int main(void)
         /* Drawing */
         BeginDrawing();
 
-        ClearBackground(GetColor(0x069420));
+        ClearBackground(GetColor(0x060600));
         DrawFPS(10, 10);
         
         for (auto& line : gridlines)
