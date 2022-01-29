@@ -7,12 +7,13 @@
 #include "2D/GridRectangle.hpp"
 
 // Const and Var declaration
-const int unitSize = 100;
 const int fps = 150;
+const int scrollSpeed = 4;
 const Color gridColour = DARKBLUE;
 
 std::vector<helpers2D::Line> gridlines;
 Vector2 gridSize;
+unsigned int unitSize = 100;
 
 void generateGrid()
 {
@@ -62,6 +63,7 @@ int main(void)
 
         // Selection rect pos update
         const int selRectSpeed = fps / 10;
+
         bool keyDownRight = IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D);
         bool keyDownLeft = IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A);
         bool keyDownUp = IsKeyDown(KEY_UP) || IsKeyDown(KEY_W);
@@ -90,6 +92,18 @@ int main(void)
             selRectPos.x += 1.0f;
             selectionRectangle.setGridPos(selRectPos);
         }
+
+        // check for scroll changes and change zoom
+        float scrolled = GetMouseWheelMove();
+        if (scrolled != 0.0f && unitSize + scrolled * scrollSpeed > 0)
+        {
+            unitSize += scrolled * scrollSpeed;
+            gridSize = (Vector2){0,0};
+            gridlines.clear();
+            generateGrid();
+            selectionRectangle = helpers2D::GridRectangle(selRectPos, (Vector2){1,1}, YELLOW, unitSize);
+        }
+        
 
         // regen grid if window is resized
         if (IsWindowResized())
