@@ -48,7 +48,8 @@ void generateGrid()
 int main(void)
 {
     // Window initlisation
-    InitWindow(625, 576, "funni march");
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(768, 576, "funni march");
     SetTargetFPS(150);
     generateGrid();
     unsigned long frameCount;
@@ -89,7 +90,16 @@ int main(void)
             selRectPos.x += 1.0f;
             selectionRectangle.setGridPos(selRectPos);
         }
-       
+
+        // regen grid if window is resized
+        if (IsWindowResized())
+        {
+            gridSize = (Vector2){0,0};
+            gridlines.clear();
+            generateGrid();
+            selectionRectangle.setGridPos(selRectPos);
+        }
+        
 
         /* Drawing */
         BeginDrawing();

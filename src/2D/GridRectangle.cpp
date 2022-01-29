@@ -42,8 +42,8 @@ void GridRectangle::setGridPos(Vector2 pos)
     int halfScreenY = GetScreenHeight() / 2;
 
     this->gridPos = pos;
-    this->rectangle.x = (pos.x - .5) * unitSize + halfScreenX;
-    this->rectangle.y = (pos.y * -1 - .5) * unitSize + halfScreenY;
+    this->rectangle.x = (pos.x - .5) * unitSize + halfScreenX - 1;
+    this->rectangle.y = (pos.y * -1 - .5) * unitSize + halfScreenY - 1;
 }
 
 Vector2 GridRectangle::getGridPos() 
