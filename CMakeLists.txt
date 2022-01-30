@@ -8,10 +8,18 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(/usr/include /usr/local/include) # might need this
 
-# add executiable libs
+# add resources
+include(cmake-extensions/FileEmbed.cmake)
+add_resources(RESOURCE_OBJECTS resources/logo.png)
+
+# add cpp files to be compiled
 file(GLOB SOURCES src/*.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${RESOURCE_OBJECTS})
+
+# target fuckery
+add_custom_target(${PROJECT_NAME}-resources ALL DEPENDS ${return_var})
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}-resources)
 
 # add internal 2D libs
 file(GLOB 2D_LIBS src/2D/*.cpp)

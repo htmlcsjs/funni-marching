@@ -15,6 +15,10 @@ std::vector<helpers2D::Line> gridlines;
 Vector2 gridSize;
 unsigned int unitSize = 100;
 
+// Resources
+extern const unsigned char _binary_resources_logo_png_start, _binary_resources_logo_png_end;
+size_t logo_png_size = &_binary_resources_logo_png_end - &_binary_resources_logo_png_start;
+
 void generateGrid()
 {
     int screenX = GetScreenWidth();
@@ -54,6 +58,12 @@ int main(void)
     SetTargetFPS(fps);
     generateGrid();
     unsigned long frameCount;
+
+    // Set window icon
+    Image icon = LoadImageFromMemory(".png", &_binary_resources_logo_png_start, logo_png_size);
+    ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+    SetWindowIcon(icon);
+    UnloadImage(icon);
 
     helpers2D::GridRectangle selectionRectangle = helpers2D::GridRectangle(1.5, 1.5, 1, 1, YELLOW, unitSize);
     
@@ -104,7 +114,6 @@ int main(void)
             selectionRectangle = helpers2D::GridRectangle(selRectPos, (Vector2){1,1}, YELLOW, unitSize);
         }
         
-
         // regen grid if window is resized
         if (IsWindowResized())
         {
